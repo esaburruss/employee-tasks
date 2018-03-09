@@ -32,6 +32,7 @@ public class TaskController {
     @ResponseBody
     public ResponseEntity<?> add(@RequestBody Task task) {
         try {
+        	task.setCompleted(false);
         	return new ResponseEntity<>(dao.save(task), HttpStatus.CREATED);
         } catch (DataIntegrityViolationException ex) {
         	return get400(ex);
@@ -45,7 +46,7 @@ public class TaskController {
         	try {
         		Task taskToUpdate = dao.findById(taskId).get();
         		taskToUpdate.updateWith(task);
-        		return new ResponseEntity<>(dao.save(task), HttpStatus.CREATED);
+        		return new ResponseEntity<>(dao.save(taskToUpdate), HttpStatus.CREATED);
             } catch (DataIntegrityViolationException ex) {
             	return get400(ex);
             }

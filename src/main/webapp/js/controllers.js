@@ -2,35 +2,64 @@ angular.module('TasksApp.controllers', []).
 
   /* Tasks controller */
   controller('tasksController', function($scope, apiService) {
-    //$scope.nameFilter = null;
-    $scope.tasksList = [];
-    /*$scope.searchFilter = function (task) {
-        var re = new RegExp($scope.nameFilter, 'i');
-        return !$scope.nameFilter || re.test(task.Task.givenName) || re.test(task.Task.familyName);
-    };*/
 
-    apiService.getTasks().then(function (response) {
-        //Digging into the response to get the relevant data
+    $scope.tasksList = [];
+
+
+    $scope.load = function() {
+      apiService.getTasks().then(function (response) {
         $scope.tasksList = response.data;
-        console.log(response);
-    }).catch(function(err) {
-      // handle errors
-      console.log(err);
-    });
+      }).catch(function(err) {
+        console.log(err);
+      });
+    }
+
+    $scope.complete = function(id) {
+      var task = {
+        id: id,
+        completedDate: new Date(),
+        completed: true
+      }
+
+      apiService.completeTask(task).then(function (response) {
+        $scope.load();
+      }).catch(function(err) {
+        console.log(err);
+      });
+    };
+
+    $scope.delete = function(id) {
+
+      apiService.deleteTask(id).then(function (response) {
+        $scope.load();
+      }).catch(function(err) {
+        console.log(err);
+      });
+    };
+
+    $scope.format = function (date) {
+      if(date) {
+        return moment(date).format('MM-DD-YYYY hh:mm');
+      } else {
+        return 'Unfinished';
+      }
+    }
+
+    $scope.load();
   }).
 
   /* Task controller */
   controller('taskController', function($scope, $routeParams, apiService) {
-    //$scope.id = $routeParams.id;
+
     $scope.task = null;
     $scope.master = {};
 
     $scope.update = function(task) {
       $scope.master = angular.copy(task);
       apiService.createTask(task).then(function (response) {
-        console.log(response);
+        $scope.reset();
       }).catch(function(err) {
-        console.log(err);
+        //console.log(err);
       });
     };
 
@@ -39,11 +68,4 @@ angular.module('TasksApp.controllers', []).
     };
 
     $scope.reset();
-    /*apiService.getTaskDetails($scope.id).success(function (response) {
-        $scope.task = response.MRData.StandingsTable.StandingsLists[0].TaskStandings[0];
-    });
-
-    apiService.getTaskRaces($scope.id).success(function (response) {
-        $scope.races = response.MRData.RaceTable.Races;
-    });*/
   });

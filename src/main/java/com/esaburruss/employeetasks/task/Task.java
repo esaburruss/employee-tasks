@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -86,6 +87,7 @@ public class Task {
 		this.description = description;
 	}
 
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy hh:mm")
 	public Date getDueDate() {
 		return dueDate;
 	}
@@ -94,6 +96,7 @@ public class Task {
 		this.dueDate = dueDate;
 	}
 
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy hh:mm")
 	public Date getCompletedDate() {
 		return completedDate;
 	}

@@ -1,20 +1,35 @@
-<div class="container">
-  <div class="row"
-    <div class="col-lg-12">
 
-      <table class="table">
-        <thead>
-          <td>Name</td>
-          <td>Description</td>
-        </thead>
-        <tbody>
-          <tr ng-repeat="task in tasksList">
-            <td>{{task.name}}</td>
-            <td>{{task.description}}</td>
-          </tr>
-        </tbody>
-      </table>
-
-    </div>
+<div class="card">
+  <div class="card-body">
+    <a class="btn btn-primary" href="./#!/task/">Create New Task</a>
+  </div>
+</div>
+<p></p>
+<div class="card">
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Assignee</td>
+        <td>Category</td>
+        <td>Due</td>
+        <td>Completed</td>
+        <td></td>
+        <td></td>
+      </thead>
+      <tbody>
+        <tr ng-repeat="task in tasksList">
+          <td>{{task.name}}</td>
+          <td>{{task.description}}</td>
+          <td>{{task.assignee}}</td>
+          <td>{{task.category}}</td>
+          <td>{{format(task.dueDate)}}</td>
+          <td>{{format(task.completedDate)}}</td>
+          <td><button class="btn btn-success" ng-if="task.completed === false" ng-click="complete(task.id)">✔️</button></td>
+          <td><button class="btn btn-danger" ng-click="delete(task.id)">❌</button></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

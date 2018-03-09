@@ -18,19 +18,20 @@ angular.module('TasksApp.services', [])
       });
     }
 
-    /*ergastAPI.getTaskDetails = function(id) {
+    api.deleteTask = function(id) {
       return $http({
-        method: 'JSONP',
-        url: 'http://ergast.com/api/f1/2013/tasks/'+ id +'/taskStandings.json?callback=JSON_CALLBACK'
+        method: 'DELETE',
+        url: '/v1/tasks/' + id
       });
     }
 
-    ergastAPI.getTaskRaces = function(id) {
+    api.completeTask = function(task) {
       return $http({
-        method: 'JSONP',
-        url: 'http://ergast.com/api/f1/2013/tasks/'+ id +'/results.json?callback=JSON_CALLBACK'
+        method: 'PUT',
+        url: '/v1/tasks/' + task.id,
+        data: task
       });
-    }*/
+    }
 
     return api;
   });
